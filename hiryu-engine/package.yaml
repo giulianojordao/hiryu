@@ -21,10 +21,28 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
-- morpheus-graphql
+- classy-prelude
+
+default-extensions:
+- OverloadedStrings
+- QuasiQuotes
+- GeneralizedNewtypeDeriving
+- ConstraintKinds
+- FlexibleContexts
+- TemplateHaskell
+- FlexibleInstances
+- NoImplicitPrelude
+- ScopedTypeVariables
 
 library:
   source-dirs: src
+  dependencies:
+  - morpheus-graphql
+  - scotty
+  - persistent
+  - persistent-migration
+  - bytestring >= 0.10.8.2
+  - text >= 1.2.3.1
 
 executables:
   hiryu-engine-exe:

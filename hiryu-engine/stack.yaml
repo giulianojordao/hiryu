@@ -39,6 +39,7 @@ packages:
 # (e.g., acme-missiles-0.3)
 extra-deps:
 - morpheus-graphql-0.6.2
+- persistent-migration-0.1.0
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

@@ -1,0 +1,148 @@
+type Query {
+  myCampaigns(userId: ID!): [Campaign!]! #@hasAuthorization(roles: ["ROLE_ME"])
+  sheet(userId: ID!): Sheet! #@hasAuthorization(roles: ["ROLE_ME"])
+  sheets(): [Sheet!]! #@hasAuthorization(roles: ["ROLE_ADMIN"])
+  allCampaigns(): [Campaign!]! #@hasAuthorization(roles: ["ROLE_ADMIN"])
+}
+
+type Mutation {
+  insertCampaign(input: CampaignInput): Campaign! #@hasAuthorization(roles: ["ROLE_ADMIN"])
+  insertCampaignPage(input: CampaignPageInput): CampaignPage! #@hasAuthorization(roles: ["ROLE_ADMIN"])
+  insertSheet(input: SheetInput): Sheet!  #@hasAuthorization(roles: ["ROLE_ME"])
+}
+
+input CampaignInput {
+  title: String!
+  type: String
+  description: String
+  photo: String
+}
+
+input CampaignPageInput {
+  text: String
+  choices: [CampaignChoiceInput!]!
+  speeches: [CampaignSpeechInput!]!
+}
+
+input CampaignChoiceInput {
+  text: String!
+  value: Int!
+  dependent: Boolean!
+  nextPage: CampaignPage
+  type: String # should be an enum
+}
+
+input CampaignSpeechInput {
+  player: Boolean!
+  text: String!
+}
+
+input SheetInput {
+  arguments: [SheetArgumentInput!]!
+}
+
+input SheetArgumentInput {
+  sheetId: ID!
+  attribute: String!
+  value: String!
+}
+
+type Campaign {
+  """campaign made by players to receive rewards"""
+  id: ID!
+  title: String!
+  type: String # should be an enum
+  description: String
+  photo: String
+  pages: [CampaignPage!]!
+  finished: CampaignUser
+}
+
+type CampaignUser {
+  """created when user finishes one campaign"""
+  user: ID!
+  campaign: ID!
+  finished: Boolean!
+}
+
+type CampaignPage {
+  """steps of the campaign"""
+  id: ID!
+  text: String!
+  choices: [CampaignPage_Choice!]!
+  speeches: [CampaignPage_Speech!]!
+}
+
+type CampaignPage_Speech {
+  """speech from npc or player on campaign page"""
+  id: ID!
+  player: Boolean!
+  text: String!
+}
+
+type CampaignPage_Choice {
+  """choice made by the player"""
+  id: ID!
+  text: String!
+  value: Int!
+  dependent: Boolean!
+  nextPage: CampaignPage
+  type: String # should be an enum
+}
+
+type CampaignReward {
+  """rewards earned finishing campaign"""
+  id: ID!
+  type: String! # should be an enum
+}
+
+type SheetType {
+  """sheet type with arguments spec and distribution guide"""
+  id: ID!
+  spec: String!
+}
+
+type Sheet {
+  """sheet relation with user"""
+  id: ID!
+  user: ID!
+  type: SheetType!
+  inventory: Inventory!
+}
+
+type Sheet_Arguments {
+  """arguments distributed by the user"""
+  id: ID!
+  sheet: Sheet!
+  attribute: String!
+  value: String!
+}
+
+type Inventory {
+  """Inventory capacity and relations"""
+  capacity: Int
+  items: [Inventory_Item!]!
+}
+
+type Inventory_Item {
+  """inventory items per user"""
+  id: ID!
+  item: Item!
+  quantity: Int!
+}
+
+type Item {
+  """global item definition"""
+  id: ID!
+  name: String!
+  usable: Boolean!
+  price: Item_Price!
+}
+
+type Item_Price {
+  """global item price definition"""
+  id: ID!
+  price: Int
+  sellPrice: Int
+  buyPrice: Int
+}
