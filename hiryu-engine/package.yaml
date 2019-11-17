@@ -22,6 +22,7 @@ description:         Please see the README on GitHub at <https://github.com/gith
 dependencies:
 - base >= 4.7 && < 5
 - classy-prelude
+- scotty
 
 default-extensions:
 - OverloadedStrings
@@ -31,14 +32,12 @@ default-extensions:
 - FlexibleContexts
 - TemplateHaskell
 - FlexibleInstances
-- NoImplicitPrelude
 - ScopedTypeVariables
 
 library:
   source-dirs: src
   dependencies:
   - morpheus-graphql
-  - scotty
   - persistent
   - persistent-migration
   - bytestring >= 0.10.8.2

@@ -1,5 +1,6 @@
 module Main where
 
+import           System.IO
 import           Control.Monad.IO.Class         ( liftIO )
 import           Web.Scotty
 import           Api

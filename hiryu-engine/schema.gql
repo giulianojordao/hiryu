@@ -28,7 +28,7 @@ input CampaignChoiceInput {
   text: String!
   value: Int!
   dependent: Boolean!
-  nextPage: CampaignPage
+  nextPage: ID!
   type: String # should be an enum
 }
 
