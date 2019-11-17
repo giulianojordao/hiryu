@@ -12,14 +12,11 @@
 module Api (gqlApi) where
 
 import qualified Data.ByteString.Lazy.Char8 as B
-import           System.IO
 import           Data.Morpheus              (interpreter)
 import           Data.Morpheus.Document     (importGQLDocumentWithNamespace)
 import           Data.Morpheus.Kind         (SCALAR)
 import           Data.Morpheus.Types        (GQLRootResolver (..), Undefined (..), GQLScalar, GQLType (..), ID (..), IORes, ScalarValue (..))
 import           Data.Text                  (Text)
-import           Data.Bool                  (Bool)
-import           Data.Int                   (Int)
 
 importGQLDocumentWithNamespace "schema.gql"
 
