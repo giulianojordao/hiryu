@@ -13,10 +13,9 @@ import           Control.Monad.IO.Class  (liftIO)
 import           Database.Persist
 import           Database.Persist.Postgresql
 import           Database.Persist.TH
+import           Database.Persist.Sql
 import           Control.Monad.Logger    (runStderrLoggingT)
 import           Data.Password
-import           Control.Monad.Reader
-import           Control.Monad.Logger
 import           Conduit
 import           Entities.User
 
@@ -29,8 +28,8 @@ salt = Salt "as13h398h013xmc40tc2"
 inHandlerDb = liftIO . dbFunction
 
 dbFunction query = runStderrLoggingT $ 
-        withPostgresqlPool connStr 10 $ 
-        \pool -> liftIO $ runSqlPersistMPool query pool
+        withPostgresqlPool connStr 10 $
+        \pool -> liftSqlPersistMPool query pool
 
 doMigrations = do
   runMigration $ migrateUser
