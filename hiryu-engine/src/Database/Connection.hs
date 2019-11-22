@@ -31,9 +31,10 @@ withPostgres :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) a -> IO a
 withPostgres =
   runNoLoggingT . withPostgresqlPool connStr 10 . liftSqlPersistMPool
 
+doMigrations :: ReaderT SqlBackend IO ()
 doMigrations = do
   runMigration $ migrateUser
 
+doSeeds :: ReaderT SqlBackend IO (Key User)
 doSeeds = do
-  adminId <- insert $ User "Admin" "admin" "admin" "admin@mailinator.com"
-  liftIO $ print adminId
+  insert $ User "Admin" "admin" "admin" "admin@mailinator.com"

@@ -23,7 +23,11 @@ dependencies:
 - base >= 4.7 && < 5
 - classy-prelude
 - scotty
-
+- wai-extra
+- morpheus-graphql
+- bytestring >= 0.10.8.2
+- text >= 1.2.3.1
+  
 default-extensions:
 - OverloadedStrings
 - QuasiQuotes
@@ -37,13 +41,10 @@ default-extensions:
 library:
   source-dirs: src
   dependencies:
-  - morpheus-graphql
   - persistent
   - persistent-migration
   - persistent-postgresql
   - persistent-template
-  - bytestring >= 0.10.8.2
-  - text >= 1.2.3.1
   - password >= 0.1.0.0
   - monad-logger >= 0.3.30
   - mtl >= 2.2.2

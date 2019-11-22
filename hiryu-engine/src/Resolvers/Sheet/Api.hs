@@ -9,5 +9,5 @@
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
 
-module Resolvers.Sheet.Api (sheetApi) where
+module Resolvers.Sheet.Api where
 

@@ -41,6 +41,7 @@ extra-deps:
 - morpheus-graphql-0.6.2
 - persistent-migration-0.1.0
 - monad-logger-0.3.30
+- wai-extra-3.0.28
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
