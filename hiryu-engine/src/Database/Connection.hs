@@ -28,13 +28,13 @@ salt :: Salt
 salt = Salt "as13h398h013xmc40tc2"
 
 withPostgres :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) a -> IO a
-withPostgres =
-  runNoLoggingT . withPostgresqlPool connStr 10 . liftSqlPersistMPool
+withPostgres = runResourceT . runStderrLoggingT
+               . withPostgresqlPool connStr 10 . liftSqlPersistMPool
 
-doMigrations :: ReaderT SqlBackend IO ()
+doMigrations :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) ()
 doMigrations = do
   runMigration $ migrateUser
 
-doSeeds :: ReaderT SqlBackend IO (Key User)
+doSeeds :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) (Key User)
 doSeeds = do
   insert $ User "Admin" "admin" "admin" "admin@mailinator.com"
