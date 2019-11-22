@@ -9,7 +9,7 @@
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
 
-module Api (gqlApi) where
+module Resolvers.Campaign.Api (campaignApi) where
 
 import qualified Data.ByteString.Lazy.Char8 as B
 import           Data.Morpheus              (interpreter)
@@ -17,8 +17,6 @@ import           Data.Morpheus.Document     (importGQLDocumentWithNamespace)
 import           Data.Morpheus.Kind         (SCALAR)
 import           Data.Morpheus.Types        (GQLRootResolver (..), Undefined (..), GQLScalar, GQLType (..), ID (..), IORes, ScalarValue (..))
 import           Data.Text                  (Text)
-
-importGQLDocumentWithNamespace "schema.gql"
 
 rootResolver :: GQLRootResolver IO () Undefined Undefined Undefined
 rootResolver =
@@ -34,5 +32,5 @@ rootResolver =
         --deityName _ = pure "Morpheus"
         --deityPower _ = pure (Just "Shapeshifting")
 
-gqlApi :: B.ByteString -> IO B.ByteString
-gqlApi = interpreter rootResolver
+campaignApi :: B.ByteString -> IO B.ByteString
+campaignApi = interpreter rootResolver
