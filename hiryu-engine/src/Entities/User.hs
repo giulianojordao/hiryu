@@ -19,7 +19,7 @@ import           Control.Monad.Trans.Resource (ResourceT)
 import           Control.Monad.Logger    (runNoLoggingT, NoLoggingT)
 import           Database.Connection    (inHandlerDb, fromInt, Mod)
 
-share [mkPersist sqlSettings, mkSave "entityDefs"] [persistLowerCase|
+share [mkPersist sqlSettings, mkSave "entityUDefs"] [persistLowerCase|
 User
     name String
     username String
@@ -29,7 +29,7 @@ User
     deriving Show
 |]
 
-migrateUser = migrate entityDefs $ entityDef (Nothing :: Maybe User)
+migrateUser = migrate entityDefs $ entityUDef (Nothing :: Maybe User)
 
 getUser :: MonadIO m => Int64 -> Mod m (Maybe User)
 getUser = get . fromInt

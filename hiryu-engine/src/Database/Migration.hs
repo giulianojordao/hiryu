@@ -23,6 +23,7 @@ doMigrations :: Mod (NoLoggingT (ResourceT IO)) ()
 doMigrations = do
   runMigration $ migrateUser
   runMigration $ migrateCampaign
+  runMigration $ migrateCampaignUser
 
 doSeeds :: Mod (NoLoggingT (ResourceT IO)) ()
 doSeeds = do

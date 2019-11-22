@@ -19,8 +19,9 @@ import           Data.Time
 import           Control.Monad.Trans.Resource (ResourceT)
 import           Control.Monad.Logger    (runNoLoggingT, NoLoggingT)
 import           Database.Connection    (inHandlerDb, fromInt, Mod)
+import           Entities.User
 
-share [mkPersist sqlSettings, mkSave "entityDefs"] [persistLowerCase|
+share [mkPersist sqlSettings, mkSave "entityCDefs"] [persistLowerCase|
 Campaign
     title String
     type String
@@ -28,6 +29,13 @@ Campaign
     photo String Maybe
     createdAt UTCTime default=NOW()
     deriving Show
+
+CampaignUser
+    user UserId Foreign Key
+    campaign CampaingId Foreign Key
+    finished Bool default=false
+    deriving Show
 |]
 
-migrateCampaign = migrate entityDefs $ entityDef (Nothing :: Maybe Campaign)
+migrateCampaign = migrate entityCDefs $ entityDef (Nothing :: Maybe Campaign)
+migrateCampaignUser = migrate entityCDefs $ entityDef (Nothing :: Maybe CampaignUser)
