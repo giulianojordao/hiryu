@@ -7,7 +7,7 @@
 {-# LANGUAGE QuasiQuotes                #-}
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
-module Database.Migration (doMigrations) where
+module Database.Migration (doMigrations, doSeeds) where
 
 import           Control.Monad.IO.Class  (liftIO)
 import           Control.Monad.Logger    (runStderrLoggingT, runNoLoggingT, NoLoggingT)
