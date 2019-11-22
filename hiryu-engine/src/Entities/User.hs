@@ -29,7 +29,7 @@ User
     deriving Show
 |]
 
-migrateUser = migrate entityDefs $ entityUDef (Nothing :: Maybe User)
+migrateUser = migrate entityUDefs $ entityDef (Nothing :: Maybe User)
 
 getUser :: MonadIO m => Int64 -> Mod m (Maybe User)
 getUser = get . fromInt

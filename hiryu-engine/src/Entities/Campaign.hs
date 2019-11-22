@@ -19,7 +19,7 @@ import           Data.Time
 import           Control.Monad.Trans.Resource (ResourceT)
 import           Control.Monad.Logger    (runNoLoggingT, NoLoggingT)
 import           Database.Connection    (inHandlerDb, fromInt, Mod)
-import           Entities.User
+import           Entities.User          (UserId)
 
 share [mkPersist sqlSettings, mkSave "entityCDefs"] [persistLowerCase|
 Campaign
@@ -32,7 +32,7 @@ Campaign
 
 CampaignUser
     user UserId Foreign Key
-    campaign CampaingId Foreign Key
+    campaign CampaignId Foreign Key
     finished Bool default=false
     deriving Show
 |]
