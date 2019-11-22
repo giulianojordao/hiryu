@@ -17,10 +17,12 @@ import           Database.Persist
 import           Database.Persist.Sql
 import           Database.Connection     (Mod)
 import           Entities.User
+import           Entities.Campaign
 
 doMigrations :: Mod (NoLoggingT (ResourceT IO)) ()
 doMigrations = do
   runMigration $ migrateUser
+  runMigration $ migrateCampaign
 
 doSeeds :: Mod (NoLoggingT (ResourceT IO)) ()
 doSeeds = do

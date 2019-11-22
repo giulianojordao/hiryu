@@ -51,7 +51,7 @@ type Campaign {
   """campaign made by players to receive rewards"""
   id: ID!
   title: String!
-  type: String # should be an enum
+  type: String! # should be an enum
   description: String
   photo: String
   pages: [CampaignPage!]!
