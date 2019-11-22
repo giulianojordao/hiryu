@@ -9,16 +9,16 @@
 {-# LANGUAGE TypeFamilies               #-}
 module Entities.User where
 
-import           Control.Monad.IO.Class  (liftIO)
+import           Control.Monad.IO.Class  (liftIO, MonadIO)
 import           Database.Persist
 import           Database.Persist.Postgresql
 import           Database.Persist.TH
 import           Data.Text
 import           Data.Int
-import           Control.Monad.Reader
-import           Control.Monad.Logger
-import           Conduit
-import           Database.Connection    (inHandlerDb)
+import           Control.Monad.Logger    (runStderrLoggingT, runNoLoggingT, NoLoggingT)
+import           Control.Monad.Trans.Reader (ReaderT)
+import           Control.Monad.Trans.Resource (ResourceT)
+import           Database.Connection    (inHandlerDb, fromInt, Mod)
 
 share [mkPersist sqlSettings, mkSave "entityDefs"] [persistLowerCase|
 User
@@ -32,17 +32,10 @@ User
 
 migrateUser = migrate entityDefs $ entityDef (Nothing :: Maybe User)
 
-toUserId :: Int64 -> UserId
-toUserId = toSqlKey
+getUser :: MonadIO m => Int64 -> Mod m (Maybe User)
+getUser = get . fromInt
 
-getUserById :: Int64 -> IO (Maybe User)
-getUserById = inHandlerDb . get . toUserId
-
-
-getUserByUsername :: String -> IO (Maybe (Entity User))
-getUserByUsername = inHandlerDb . getBy . UniqueUsername
-
-doUserSeed :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) (Key User)
 doUserSeed = do
-  case getUserByUsername "admin" of
+  user <- getUser 1
+  case user of
     Nothing -> insert $ User "Admin" "admin" "admin" "admin@mailinator.com"

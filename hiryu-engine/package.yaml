@@ -22,6 +22,10 @@ description:         Please see the README on GitHub at <https://github.com/gith
 dependencies:
 - base >= 4.7 && < 5
 - classy-prelude
+- persistent
+- persistent-migration
+- persistent-postgresql
+- persistent-template
 - scotty
 - wai-extra
 - morpheus-graphql
@@ -41,10 +45,6 @@ default-extensions:
 library:
   source-dirs: src
   dependencies:
-  - persistent
-  - persistent-migration
-  - persistent-postgresql
-  - persistent-template
   - password >= 0.1.0.0
   - monad-logger >= 0.3.30
   - mtl >= 2.2.2

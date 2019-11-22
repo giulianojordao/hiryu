@@ -7,9 +7,12 @@
 {-# LANGUAGE QuasiQuotes                #-}
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
-module Database.Migration (inHandlerDb) where
+module Database.Migration (doMigrations) where
 
 import           Control.Monad.IO.Class  (liftIO)
+import           Control.Monad.Logger    (runStderrLoggingT, runNoLoggingT, NoLoggingT)
+import           Control.Monad.Trans.Reader (ReaderT)
+import           Control.Monad.Trans.Resource (ResourceT)
 import           Database.Persist
 import           Database.Persist.Sql
 import           Entities.User
@@ -18,6 +21,6 @@ doMigrations :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) ()
 doMigrations = do
   runMigration $ migrateUser
 
-doSeeds :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) (Key User)
+doSeeds :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) ()
 doSeeds = do
   doUserSeed

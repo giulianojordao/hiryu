@@ -7,7 +7,7 @@
 {-# LANGUAGE QuasiQuotes                #-}
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
-module Database.Connection (inHandlerDb) where
+module Database.Connection (inHandlerDb, fromInt, toInt, Mod) where
 
 import           Control.Monad.IO.Class  (liftIO)
 import           Database.Persist
@@ -18,6 +18,7 @@ import           Control.Monad.Logger    (runStderrLoggingT, runNoLoggingT, NoLo
 import           Control.Monad.Trans.Reader (ReaderT)
 import           Control.Monad.Trans.Resource (ResourceT)
 import           Data.Password
+import           Data.Int
 import           Conduit
 
 -- @TODO(StefanYohansson): load it from env
@@ -29,3 +30,11 @@ salt = Salt "as13h398h013xmc40tc2"
 inHandlerDb :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) a -> IO a
 inHandlerDb = runResourceT . runStderrLoggingT
                . withPostgresqlPool connStr 10 . liftSqlPersistMPool
+
+fromInt :: ToBackendKey SqlBackend record => Int64 -> Key record
+fromInt = toSqlKey
+
+toInt :: ToBackendKey SqlBackend record => Key record -> Int64
+toInt = fromSqlKey
+
+type Mod m a = ReaderT SqlBackend m a
