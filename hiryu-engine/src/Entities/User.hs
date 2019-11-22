@@ -38,7 +38,7 @@ getUser = get . fromInt
 getUserByUsername :: MonadIO m => String -> Mod m (Maybe (Entity User))
 getUserByUsername = getBy . UniqueUsername
 
-doUserSeed :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) ()
+doUserSeed :: Mod (NoLoggingT (ResourceT IO)) ()
 doUserSeed = do
   user <- getUserByUsername "admin"
   case user of

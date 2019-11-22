@@ -15,12 +15,13 @@ import           Control.Monad.Trans.Reader (ReaderT)
 import           Control.Monad.Trans.Resource (ResourceT)
 import           Database.Persist
 import           Database.Persist.Sql
+import           Database.Connection     (Mod)
 import           Entities.User
 
-doMigrations :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) ()
+doMigrations :: Mod (NoLoggingT (ResourceT IO)) ()
 doMigrations = do
   runMigration $ migrateUser
 
-doSeeds :: ReaderT SqlBackend (NoLoggingT (ResourceT IO)) ()
+doSeeds :: Mod (NoLoggingT (ResourceT IO)) ()
 doSeeds = do
   doUserSeed
