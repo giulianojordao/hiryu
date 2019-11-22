@@ -7,7 +7,7 @@ import           Resolvers.Campaign.Api         ( campaignApi )
 import           Database.Connection            ( inHandlerDb, doMigrations, doSeeds )
 import           Network.Wai.Middleware.RequestLogger ( logStdoutDev )
 
-importGQLDocumentWithNamespace "schema.gql"
+-- importGQLDocumentWithNamespace "schema.gql"
 
 main :: IO ()
 main = do
