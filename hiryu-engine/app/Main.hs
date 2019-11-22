@@ -20,7 +20,8 @@ import           Web.Scotty
 import           Data.Morpheus.Document     (importGQLDocumentWithNamespace)
 --import           Resolvers.Sheet.Api            ( sheetApi )
 import           Resolvers.Campaign.Api         ( campaignApi )
-import           Database.Connection            ( withPostgres, doMigrations, doSeeds )
+import           Database.Connection            ( inHandlerDb )
+import           Database.Migration             ( doMigrations, doSeeds )
 import           Network.Wai.Middleware.RequestLogger ( logStdoutDev )
 import           Data.Text                  (Text)
 
@@ -28,7 +29,7 @@ importGQLDocumentWithNamespace "schema.gql"
 
 main :: IO ()
 main = do
-  withPostgres $ do
+  inHandlerDb $ do
     doMigrations
     doSeeds
   scotty 3000 $ do
