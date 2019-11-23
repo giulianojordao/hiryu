@@ -8,7 +8,6 @@
 {-# LANGUAGE ScopedTypeVariables   #-}
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
-
 module Resolvers.Campaign.Api (campaignApi) where
 
 import qualified Data.ByteString.Lazy.Char8 as B
@@ -17,6 +16,7 @@ import           Data.Morpheus.Kind         (SCALAR)
 import           Data.Morpheus.Types        (GQLRootResolver (..), Undefined (..), GQLScalar, GQLType (..), ID (..), IORes, ScalarValue (..))
 import           Data.Morpheus.Document     (importGQLDocumentWithNamespace)
 import           Data.Text                  (Text)
+
 
 importGQLDocumentWithNamespace "schema.gql"
 
