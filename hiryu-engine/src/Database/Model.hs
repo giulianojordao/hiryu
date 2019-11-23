@@ -39,10 +39,15 @@ share [mkPersist sqlSettings, mkDeleteCascade sqlSettings, mkMigrate "migrateAll
     deriving Show
 
   CampaignUser
-    user UserId Foreign Key
+    sheet SheetId Foreign Key
     campaign CampaignId Foreign Key
     finished Bool default=false
+    triedAt UTCTime default=NOW()
     deriving Show
+
+  Sheet
+    user UserId Foreign Key
+    createdAt UTCTime default=NOW()
 |]
 
 doMigrations :: Mod (NoLoggingT (ResourceT IO)) ()

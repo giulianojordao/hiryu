@@ -56,12 +56,14 @@ type Campaign {
   photo: String
   pages: [CampaignPage!]!
   finished: CampaignUser
+  createdAt: String!
 }
 
 type CampaignUser {
   """created when user finishes one campaign"""
-  user: ID!
+  sheet: ID!
   campaign: ID!
+  triedAt: String!
   finished: Boolean!
 }
 
@@ -108,6 +110,7 @@ type Sheet {
   user: ID!
   type: SheetType!
   inventory: Inventory!
+  createdAt: String!
 }
 
 type Sheet_Arguments {
