@@ -10,16 +10,17 @@
 {-# LANGUAGE StandaloneDeriving         #-}
 module Database.Model where
 
-import           Control.Monad.IO.Class  (liftIO, MonadIO)
+import           Control.Monad.IO.Class        (liftIO, MonadIO)
+import           Control.Monad.Trans.Resource  (ResourceT)
+import           Control.Monad.Logger          (runNoLoggingT, NoLoggingT)
+import           Database.Connection           (Mod)
 import           Database.Persist
 import           Database.Persist.Postgresql
 import           Database.Persist.TH
 import           Data.Text
 import           Data.Int
 import           Data.Time
-import           Control.Monad.Trans.Resource (ResourceT)
-import           Control.Monad.Logger    (runNoLoggingT, NoLoggingT)
-import           Database.Connection     (Mod)
+
 
 share [mkPersist sqlSettings, mkDeleteCascade sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
   User
