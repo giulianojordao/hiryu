@@ -20,8 +20,12 @@ import           Web.Scotty
 import           Data.Morpheus.Document     (importGQLDocumentWithNamespace)
 --import           Resolvers.Sheet.Api            ( sheetApi )
 import           Resolvers.Campaign.Api         ( campaignApi )
+import           Database.Persist
+import           Database.Persist.Postgresql
+import           Database.Persist.TH
 import           Database.Connection            ( inHandlerDb )
-import           Database.Migration             ( doMigrations, doSeeds )
+import           Database.Model                 ( doMigrations, doSeeds )
+import           Entities.User.Manager
 import           Network.Wai.Middleware.RequestLogger ( logStdoutDev )
 import           Data.Text                  (Text)
 
