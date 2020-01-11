@@ -13,28 +13,25 @@ module Resolvers.Campaign.Api (campaignApi) where
 import qualified Data.ByteString.Lazy.Char8 as B
 import           Data.Morpheus              (interpreter)
 import           Data.Morpheus.Kind         (SCALAR)
-import           Data.Morpheus.Types        (GQLRootResolver (..), Undefined (..), GQLScalar, GQLType (..), ID (..), IORes, ScalarValue (..))
+import           Data.Morpheus.Types        (GQLRootResolver (..), Undefined (..), GQLScalar, GQLType (..), ID (..), IORes, ScalarValue (..), liftEither)
 import           Data.Morpheus.Document     (importGQLDocumentWithNamespace)
 import           Data.Text                  (Text)
 
 
 importGQLDocumentWithNamespace "schema.gql"
 
+resolveMyCampaigns :: QueryMyCampaignsArgs -> IORes e [Campaign]
+resolveMyCampaigns = QueryMyCampaignsArgs { queryMyCampaignsArgsUserId } =
+  liftEither $ getMyCampaigns queryMyCampaignsArgsUserId
+
 rootResolver :: GQLRootResolver IO () Query Undefined Undefined
 rootResolver =
   GQLRootResolver
     {
-      queryResolver = Query { queryMyCampaigns },
+      queryResolver = Query { queryMyCampaigns = resolveMyCampaigns },
       mutationResolver = Undefined,
       subscriptionResolver = Undefined
     }
-  where
-    queryMyCampaigns QueryMyCampaignsArgs {queryMyCampaignsArgsUserId} = pure [Campaign {campaignTitle, campaignType', campaignPhoto, campaignFinished}]
-      where
-        campaignTitle _ = pure "Test"
-        campaignType' _ = pure "Type Test"
-        campaignPhoto _ = pure (Nothing)
-        campaignFinished _ = pure (Nothing)
 
 campaignApi :: B.ByteString -> IO B.ByteString
 campaignApi = interpreter rootResolver
