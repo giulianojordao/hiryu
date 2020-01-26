@@ -21,10 +21,10 @@ import           Database.Model
 getCampaign :: MonadIO m => Int64 -> Mod m (Maybe Campaign)
 getCampaign = get . fromInt
 
-getMyCampaigns :: MonadIO m => Int64 -> SqlPersistT m [(Entity Campaign, Maybe (Entity CampaignUser))]
+getMyCampaigns :: MonadIO m => Int64 -> SqlPersistT m [Entity Campaign]
 getMyCampaigns sheetId = do
   select $
     from $ \(campaign `LeftOuterJoin` campaignUser) -> do
     on (just (campaign ^. CampaignId) ==. campaignUser ?. CampaignUserCampaign)
     where_ (campaignUser ?. CampaignUserSheet ==. just ((val (fromInt sheetId))))
-    return (campaign, campaignUser)
+    return campaign
